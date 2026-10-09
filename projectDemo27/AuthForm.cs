@@ -39,9 +39,10 @@ namespace projectDemo27
                     using (SqlTransaction transaction = connection.BeginTransaction())
                     {
                         string sql = @"
-                        SELECT [role], [failed_attempts], [is_blocked]
-                        FROM [Users] WITH (UPDLOCK, ROWLOCK)
-                        WHERE [user_name] = @login and [password] = @password";
+    SELECT [password], [role],
+           [failed_attempts], [is_blocked]
+    FROM [Users] WITH (UPDLOCK, ROWLOCK)
+    WHERE [user_name] = @login";
                         string dbPassword = "";
                         string roleName = "";
                         int attempts = 0;
@@ -64,7 +65,7 @@ namespace projectDemo27
                                 {
 
                                     userFound = true;
-                                    //dbPassword = Convert.ToString(r["password"]);
+                                    dbPassword = Convert.ToString(r["password"]);
                                     roleName = Convert.ToString(r["role"]);
                                     attempts = Convert.ToInt32(r["failed_attempts"]);
                                     blocked = Convert.ToBoolean(r["is_blocked"]);
